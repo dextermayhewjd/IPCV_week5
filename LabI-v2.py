@@ -108,6 +108,17 @@ if __name__ == '__main__':
     in world coordinate frame
     '''
     #########################################
+    name_list.append('sphere_my')
+    sph_mesh = o3d.geometry.TriangleMesh.create_sphere(radius=2)
+    mesh_list.append(sph_mesh)
+    H_list.append(np.array(
+        [[1, 0, 0, 0],
+         [0, 1, 0, 2],
+         [0, 0, 1, 0],
+         [0, 0, 0, 1]]
+    ))
+    RGB_list.append([0., 0.5, 0.5])
+    ##########################################
 
 
     # arrange plane and sphere in the space
@@ -159,6 +170,7 @@ if __name__ == '__main__':
                  [-np.sin(theta), 0, np.cos(theta), 0],
                  [0, 0, 0, 1]]
             )
+
     theta = np.pi * 45*5/180.
     H1_1 = np.array(
                 [[1, 0,            0,              0],
@@ -167,7 +179,9 @@ if __name__ == '__main__':
                 [0, 0, 0, 1]]
             )
     H1_wc = np.matmul(H1_1, H1_0)
-    render_list = [(H0_wc, 'view0.png', 'depth0.png'), 
+    render_list = [(H0_wc, 'view0.png', 'depth0.png'),
+                   (H1_0,'view1-0.png','depth1-0.png'),
+                   (H1_1),'view1-1.png','depth1-1.png',
                    (H1_wc, 'view1.png', 'depth1.png')]
 
 
@@ -185,6 +199,8 @@ if __name__ == '__main__':
     # print(K)
     # print(K.intrinsic_matrix.shape)
     print('Pose_0:\n', H0_wc)
+    print('Pose_2:\n', H1_0)
+    print('Pose_3:\n', H1_1)
     print('Pose_1:\n', H1_wc)
     print('Intrinsics\n:', K.intrinsic_matrix)
     # o3d.io.write_pinhole_camera_intrinsic("test.json", K)
